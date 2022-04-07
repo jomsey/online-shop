@@ -1,0 +1,35 @@
+{% extends '../base.html'%} {% block title %} DelightOnline - products {%endblock title %} {% block content %}
+<div class="products">
+    {% for product in products %}
+
+    <div class="shop-card list-card">
+        
+        <a href="{%url 'product_details' product.name%} "> <img src=" {{product.image_url}} " class=" card-img-top " alt=" {{product.name}} " />
+        <div class=" card-body ">
+            <h5 class=" card-title fw-light ">{{product.name}}</h5>
+            {% if product.discount != 0 %}
+            <p class=" price old-price"><strike>{{product.price}} KES</strike></p>
+            {% endif %}
+            <p class=" price discount-price ">{{product.price}} KES</p>
+            {% if product.stock_number == 0 %}
+
+            <p class=" card-text fw-lighter ">out of stoke</p>
+            {% else %}
+            <p class=" card-text fw-lighter ">{{product.stock_number}} items left</p>
+
+            {% endif %}
+
+        </div></a>
+    
+
+       
+
+    </div>
+    {%endfor %} {% include "../components/pagination_component.html" %}
+
+
+ 
+
+
+
+{% endblock content %}
