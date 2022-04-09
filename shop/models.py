@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from uuid import uuid4
 
 
-########################## Product Models ###############################
-
 class Product(models.Model):
     name = models.CharField(max_length=200,verbose_name='product_name')
     price =models.PositiveIntegerField()
@@ -14,30 +12,22 @@ class Product(models.Model):
     discount = models.PositiveIntegerField(default=0)
     stock_number = models.PositiveBigIntegerField(default=0)
     available = models.PositiveIntegerField(default=0)
-    # product_uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4)
 
-    @staticmethod
-    def product_price(self):
+    def discount_product_price(self):
         if self.discount > 0:
             discount = self.discount/100*self.price
             new_price = self.price-discount
-            return new_price
-        return self.price
+            return int(new_price)
+       
     
     def __str__(self):
         return self.name
     
 #product bought by customer
 class ProductInstance(models.Model):
-    STATUS = [
-        ('D','Delivered'),
-        ('P','Pending')
-    ]
     product = models.ForeignKey(Product,on_delete=models.DO_NOTHING)
-    #unique product id
-    product_uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4) # to ren
+    product_uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4) # #unique product id
     product_count = models.PositiveIntegerField(verbose_name='number of product',default=1)
-    delivery_status = models.CharField(max_length=1,choices=STATUS,default='P')
     
     def __str__(self):
         return self.product.name
@@ -59,27 +49,45 @@ class ProductSpecification(models.Model):
     model =models.CharField(max_length=200,blank=True) 
 
 
-#product instance to be added to thr cart  
+
 class Cart(models.Model):
-    products = models.ManyToManyField(ProductInstance)
+    products = models.ManyToManyField(ProductInstance) #product instance to be added to the cart  
 
-#reviews of a product by the customer
-class Product_Review(models.Model):
-    customer=models.ForeignKey('Customer',on_delete= models.CASCADE,null=True)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
-    date_made = models.DateTimeField(auto_now_add=True)
+
+class ProductReview(models.Model):
+    RATE_CHOICES = [
+        (1,'very poor'),
+        (2,'poor'),
+        (3,'good'),
+        (4,'very good'),
+        (5,'excellent')
+    ]
+    customer=models.ForeignKey('Customer',on_delete= models.CASCADE,null=True) #customer making product review
+    product = models.ForeignKey(Product,on_delete=models.CASCADE) #product being reviewed
+    date_made = models.DateField(auto_now_add=True)
     review = models.TextField()
-
-    def __str__(self):
-        return f'{self.product.name[:15]}_review'
+    rating = models.PositiveSmallIntegerField(verbose_name='product_rating',null=True,choices=RATE_CHOICES)
     
-
+    def __str__(self) :  
+        #return the first 30 charactors of the product name
+        if len(self.product.name) > 30:
+            return f'{self.product.name[:30]}..review'
+        else:
+            return self.product.name
+        
+          
 class Customer(models.Model):
     profile = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     phone_number = models.CharField(max_length=10,blank=True)
-    cart =  models.OneToOneField(Cart,on_delete=models.SET_NULL,null=True,blank=True)
+    cart =  models.OneToOneField(Cart,on_delete=models.SET_NULL,null=True,blank=True) 
     def __str__(self):
         return self.profile.username
+    
+    
+class CustomerOrder(models.Model):
+    pass
 
+class CustomerWishList(models.Model):
+    pass
 
     

@@ -7,6 +7,9 @@ admin.site.register(Category)
 admin.site.register(Cart)
 admin.site.register(ProductSpecification)
 admin.site.register(Customer)
-admin.site.register(Product_Review)
+admin.site.register(ProductReview)
+
+
+
 
 

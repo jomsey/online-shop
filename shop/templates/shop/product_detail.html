@@ -9,7 +9,7 @@
         </p>
         <h3 class="price">Price: KSH {{product.price}}</h3>
 
-        <button class="cart-add">Add To Cart</button>
+        <a href="{%url 'add_to_cart' product.name%}"><button class="cart-add">Add To Cart</button></a>
 
     </div>
 
@@ -26,27 +26,13 @@
     <div class="review">
         <h4 class="customer-name">{{review.customer}}</h4>
         <p class="customer-review">{{review.review}}</p>
+        <p class="customer-review">{{review.rating}}</p>
         <small class="review-date">{{review.date_made}}</small>
     </div>
-    {% endfor %}
+    {%endfor%}
 </div>
 
 
 {% endif %}
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
-            </div>
-        </div>
-    </div>
+
 </div>{% endblock content %}
