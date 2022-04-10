@@ -1,17 +1,22 @@
 <nav>
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Online Delight</a>
-        <form action="{%url 'search'%}" method="get" style="width: 300px;position:absolute;left:25%;display:flex">
-            <input type="search" name="q" placeholder="search product , brand ,category">
-            <input type="submit" value="search" style="width: 100px;height:30px;margin:20px">
+    <div class="site-nav teal">
+
+        <a href="{%url 'index'%}" class="brand">
+            <h3>Online Delight</h3>
+        </a>
+        <form action="{%url 'search'%}" class="search-form">
+            <input type="search" name="q" placeholder="search product , category" class="search">
+            <button class="white teal-text btn waves-effect   search-btn" type="submit">Search</button>
 
         </form>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="{%url 'products_list'%}">Products</a></li>
-            <li><a href="{%url 'profile'%}">Profile</a></li>
-            <li><a href="collapsible.html">JavaScript</a></li>
-
-        </ul>
+        <ul class="nav-links">
+            <li>
+                <a href="{%url 'products_list'%}" class="btn">Products</a>
+            </li>
+            <li>
+                <a href="#" class="dropdown-trigger btn" ata-target="user info"> <i class="material-icons">perm_identity</i></a>
+            </li>
+            <li><a href="{%url 'profile'%}" class="btn"><i class="material-icons left">shopping_cart</i></a></li>
 
 
     </div>

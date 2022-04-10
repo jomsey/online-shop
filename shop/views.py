@@ -8,14 +8,30 @@ from django.urls import reverse
 
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import TemplateView
-from matplotlib.style import context
 
 from shop.forms import RegisterNewCustomer, UserLoginForm
-from shop.models import Product,Category,Customer,Cart, ProductInstance
+from shop.models import Product,Category,Customer,Cart, ProductInstance,Category
+
+import requests
 
 
 class IndexView(TemplateView):
     template_name = 'shop/index.html'
+    # r = requests.get('https://fakestoreapi.com/products')
+    # for item in r.json():
+    #     c = Category.objects.create(name=item['category'])
+    #     p=Product.objects.create(
+    #         name=item['title'],
+    #         price=item['price'],
+    #         description=item['description'],
+    #         image_url=item['image'],
+    #         category=c,
+    #         discount=0,
+    #         stock_number=45,
+    #         available=30
+            
+    #     )
+    #     p.save()
     
 
 def product_list_view(request):
@@ -154,7 +170,6 @@ def search_products_view(request):
     
     if search_query:
         queryset = Product.objects.filter(name__icontains=search_query)
-    
     
     context ={
         'products':queryset,

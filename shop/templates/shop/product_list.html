@@ -1,32 +1,40 @@
 {% extends '../base.html'%} {% block title %} DelightOnline - products {%endblock title %} {% block content %}
-<div class="products">
 
-    {% if products %} {% for product in products %}
+<div class="product_list">
 
-    <div class="shop-card list-card">
+    {% for product in products %}
+    <div class="product">
+        <a href="{%url 'product_details' product.name%}" class="black-text">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{product.image_url}}">
 
-        <a href="{%url 'product_details' product.name%} "> <img src=" {{product.image_url}} " class=" card-img-top " alt=" {{product.name}} " />
-            <div class=" card-body ">
-                <h5 class=" card-title fw-light ">{{product.name}}</h5>
-                {% if product.discount != 0 %}
-                <p class=" price old-price"><strike>{{product.price}} KES</strike></p>
-                {% endif %}
-                <p class=" price discount-price ">{{product.discount_product_price}} KES</p>
-                {% if product.stock_number == 0 %}
 
-                <p class=" card-text fw-lighter ">out of stoke</p>
-                {% else %}
-                <p class=" card-text fw-lighter ">{{product.stock_number}} items left</p>
+                </div>
+                <div class="card-content">
+                    <p class="card-title">{{product.product_short_name_version}}</p>
+                    <p class="discount" style="font-size: 14px;"><b>Ksh {{product.price}}</b></p>
 
-                {% endif %}
+                    <p class="discount cyan-text"><strike>Ksh {{product.discount_product_price}}</strike></p>
+                    {% if product.available %}
+                    <p>{{product.available}} items left</p>
+                    <div class="progress">
+
+                        <div class="determinate" style="width:65%"></div>
+                    </div>
+                    {% else %}
+                    <p class="stock_over">out of stoke</p>
+
+                    {% endif %}
+                </div>
+
 
             </div>
         </a>
-
-
-
-
     </div>
 
-    {%endfor %} {% else %}
-    <h3>No products available</h3>{% endif %} {% include "../components/pagination_component.html" %} {% endblock content %}
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

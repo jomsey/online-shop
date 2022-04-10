@@ -1,3 +1,4 @@
+import math
 from django.db import models
 from django.contrib.auth.models import User
 from uuid import uuid4
@@ -18,6 +19,22 @@ class Product(models.Model):
             discount = self.discount/100*self.price
             new_price = self.price-discount
             return int(new_price)
+        
+    def product_short_name_version(self):
+        if len(self.name) > 18:
+            name = self.name[:18].strip()
+            return f'{name}...'
+        else:
+            return self.name
+        
+        
+    def stoke_left_percentage(self):
+        if self.available>0:
+            percentage = math.floor(self.available/self.stock_number*100) #nondecimal percentage
+            return f'"width:{str(percentage)}%"'
+            
+        
+        
        
     
     def __str__(self):

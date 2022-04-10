@@ -1,38 +1,48 @@
 {% extends '../base.html'%} {% block title %} DelightOnline - {{product.name}} {%endblock title %} {% block content %}
-<div class=" shop-card product-detail">
-    <div class="image">
-        <img src="{{product.image_url}}" alt="">
+
+<div class="product_detail">
+    <div class="row">
+        <div class="row card col s8">
+            <div class="col s4 image"><img src="{{product.image_url}}" alt="" style="width: 300px;"></div>
+            <div class="col s8 m card-content">
+                <p><strong>{{product.name}}</strong></p>
+                <p>Category: <a href="">{{product.category}} : similar products from {{product.category}} </a>
+                </p>
+
+
+                <li class="divider"></li>
+
+
+                <p class="discount" style="font-size: 18px;"><b>Ksh {{product.price}}</b></p>
+
+                <p class="discount cyan-text"><strike>Ksh {{product.discount_product_price}}</strike></p>
+                {% if product.available %}
+                <p>{{product.available}} items left</p>
+                <div class="progress">
+
+                    <div class="determinate" style="width:65%"></div>
+                </div>
+                {% else %}
+                <p class="stock_over">out of stoke</p>
+
+                {% endif %}
+
+                <a class="waves-effect waves-light btn-small" style="width:100%"><i
+                        class="material-icons left">cloud</i>Add To Cart</a>
+
+            </div>
+        </div>
+        <div class="col s4 card">
+            <p>i Bluetooth HeadsetMi Smart Band*In accordance with international aviation standards: single portable charging device with a capability of less than 100 Wh, passed UN38.3 testing. UN38.3 test report from the China Electronic Standardization
+                Institute (CESI) laboratories, report no.: S19-B0459-3.*Enough to fully charge four phones: After fully charging four Mi 9 phones one after another, the 20,000-mAh Redmi Fast Charge Power Bank still had battery capacity left. Testing data
+                may vary depending on objective environmental changes.*Built-in smart USB charging controller: supports most charging mechanisms on the market and guarantees compatibility with different portable smart devices*Any cable with a Micro-USB
+                or USB-C port can be used to charge the power bank. The product package includes a 20,000-mAh Redmi</p>
+        </div>
+
+
+
     </div>
-    <div class="left">
-        <h2 class="product-name">{{product.name}}</h2>
-        <p>Category <a href="{%url 'category' product.category.name%}" class="category-link">{{product.category}}</a>
-        </p>
-        <h3 class="price">Price: KSH {{product.price}}</h3>
-
-        <a href="{%url 'add_to_cart' product.name%}"><button class="cart-add">Add To Cart</button></a>
-
-    </div>
-
 </div>
 
-<div class="shop-card product-description">
-    <h2>Product Description</h2>
-    <p>{{product.description}}</p>
-</div>
 
-{% if reviews %}
-<div class="shop-card reviews">
-    {% for review in reviews %}
-    <div class="review">
-        <h4 class="customer-name">{{review.customer}}</h4>
-        <p class="customer-review">{{review.review}}</p>
-        <p class="customer-review">{{review.rating}}</p>
-        <small class="review-date">{{review.date_made}}</small>
-    </div>
-    {%endfor%}
-</div>
-
-
-{% endif %}
-
-</div>{% endblock content %}
+{% endblock content %}
