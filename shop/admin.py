@@ -8,6 +8,7 @@ admin.site.register(Cart)
 admin.site.register(ProductSpecification)
 admin.site.register(Customer)
 admin.site.register(ProductReview)
+admin.site.register(SlideImages)
 
 
 

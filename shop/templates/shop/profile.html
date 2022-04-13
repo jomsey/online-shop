@@ -1,10 +1,4 @@
-{% extends '../base.html'%} {% block title %} DelightOnline - {{user}} {%endblock title %} {% block content %}
-<h1>Hello {{user}}</h1>
+{% extends '../base.html' %} {% block content %}
+<h1>Home page</h1>
 
-<div class="shop-card">
-    <h4>Cart ({{cart_items_total}})</h4>
-    {%for product in cart_products%}
-    <p>{{product}} <a href="{%url 'remove_from_cart' product.product_uuid%}">remove from cart</a></p>
-    {%endfor%} {%endblock%}
-
-</div>
+{% endblock content %}

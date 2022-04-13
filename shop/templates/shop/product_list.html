@@ -1,39 +1,9 @@
 {% extends '../base.html'%} {% block title %} DelightOnline - products {%endblock title %} {% block content %}
 
-<div class="product_list">
+<div class="product_list row container" style="margin:  30px 0;">
 
     {% for product in products %}
-    <div class="product">
-        <a href="{%url 'product_details' product.name%}" class="black-text">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{{product.image_url}}">
-
-
-                </div>
-                <div class="card-content">
-                    <p class="card-title">{{product.product_short_name_version}}</p>
-                    <p class="discount" style="font-size: 14px;"><b>Ksh {{product.price}}</b></p>
-
-                    <p class="discount cyan-text"><strike>Ksh {{product.discount_product_price}}</strike></p>
-                    {% if product.available %}
-                    <p>{{product.available}} items left</p>
-                    <div class="progress">
-
-                        <div class="determinate" style="width:65%"></div>
-                    </div>
-                    {% else %}
-                    <p class="stock_over">out of stoke</p>
-
-                    {% endif %}
-                </div>
-
-
-            </div>
-        </a>
-    </div>
-
-    {% endfor %}
+    <div class="col" style="margin-bottom: 25px;">{% include "../components/product.html" %} </div>{% endfor %}
 
 </div>
 

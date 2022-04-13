@@ -1,0 +1,21 @@
+<a href="{%url 'product_details' product.name%}">
+    <div class="card product" style="width: 14rem;">
+        <span class="badge discount bg-success">{{product.discount}}%</span>
+        <img src="{{product.image_url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{product.product_short_name_version}}</h5>
+            <p class="card-text"><b>Ksh {{product.discount_product_price}}</b>
+            </p>
+            <strike>
+                <p class="card-text">Ksh {{product.price}}
+                </p>
+            </strike> {% if product.available %}
+            <small> {{product.available}} items left</small>
+            <div class="progress" style="height: 5px;">
+                <div class="progress-bar bg-warning" role="progressbar" style={product.stoke_left_percentage}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            {% else %}
+            <small>out of stoke</small> {% endif %}
+        </div>
+    </div>
+</a>

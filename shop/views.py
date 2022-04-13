@@ -1,41 +1,30 @@
 from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-
 from django.shortcuts import render,get_object_or_404,redirect
-from django.views.generic import TemplateView
 
+from shop.utils import cart_items_number,get_all_categories
 from shop.forms import RegisterNewCustomer, UserLoginForm
-from shop.models import Product,Category,Customer,Cart, ProductInstance,Category
-
-import requests
+from shop.models import Product,Category,Customer,Cart, ProductInstance,Category,SlideImages
 
 
-class IndexView(TemplateView):
-    template_name = 'shop/index.html'
-    # r = requests.get('https://fakestoreapi.com/products')
-    # for item in r.json():
-    #     c = Category.objects.create(name=item['category'])
-    #     p=Product.objects.create(
-    #         name=item['title'],
-    #         price=item['price'],
-    #         description=item['description'],
-    #         image_url=item['image'],
-    #         category=c,
-    #         discount=0,
-    #         stock_number=45,
-    #         available=30
-            
-    #     )
-    #     p.save()
+
+def index_view(request):
+    template = 'shop/index.html'
+    categories = get_all_categories(request)
+    slide_images= SlideImages.objects.all()
+   
+    context = {'categories':categories,
+               'images':slide_images}
+    return render(request,template,context)
     
-
+  
 def product_list_view(request):
     """retrieves all products"""
+
     template = 'shop/product_list.html'
     queryset = Product.objects.all()
     
@@ -43,10 +32,11 @@ def product_list_view(request):
     paginator = Paginator(list(queryset),4,orphans=2)
     page_number = 1
     paginated_products = paginator.page(page_number)
-    
+    cart_items = cart_items_number(request)
 
     context  ={
-        'products':queryset
+        'products':queryset,
+        'cart_number':cart_items
     }
     return render(request,template,context)
  
@@ -56,12 +46,16 @@ def product_detail_view(request,name):
     """
     queryset = get_object_or_404(Product,name=name)
     product_reviews = queryset.productreview_set.all()
-    
+    product_category = queryset.category
+    same_category_products= Product.objects.exclude(id=queryset.id).filter(category=product_category) #get products belonging to the same category living out the current product
+    cart_items = cart_items_number(request)
     template = 'shop/product_detail.html'
 
     context  ={
         'product':queryset,
         'reviews':product_reviews,
+        'same_category':same_category_products,
+        'cart_number':cart_items
        
     }
     return render(request,template,context)
@@ -83,19 +77,19 @@ def category_view(request,category):
 
 #@login_required(login_url='login')
 def user_profile_view(request):
-    customer = Customer.objects.get(profile=request.user)
-    cart = customer.cart
-    cart_products = cart.products.all()
+    # customer = Customer.objects.get(profile=request.user)
+    # cart = customer.cart
+    # cart_products = cart.products.all()
     
-    cart_items_total = cart_products.count()
+    # cart_items_total = cart_products.count()
     
-    context={
-    'cart_products':cart_products,
-    'cart_items_total':cart_items_total
+    # context={
+    # 'cart_products':cart_products,
+    # 'cart_items_total':cart_items_total
 
-    }
+    # }
     template='shop/profile.html'
-    return render(request,template,context=context)
+    return render(request,template,context={})
     
    
 def register_new_customer(request):
@@ -131,21 +125,29 @@ def register_new_customer(request):
 
 def login_view(request):
     template = 'shop/login.html'
-    
     login_form = UserLoginForm()
+
+    current_user=request.user
+
+    if current_user.is_authenticated:
+        return redirect('profile')
     
+    
+    if request.POST:
+        if login_form.is_valid():
+            login_form = UserLoginForm(request.POST)
+            username= login_form.cleaned_data.POST['username']
+            password =login_form.cleaned_data.POST['password']
+            print(username)
+
+            #authenticate and login user/customer
+            user = authenticate(request,username=username,password=password)
+
+            if user:
+                login(request,user)
+                return redirect('profile') #redirect to profile jst for testing
+            messages.error(request,'User Account does not exist')
     context = {'form':login_form}
-    #customer data from login form
-    username= request.POST.get('username')
-    password =request.POST.get('password')
-    
-    #authenticate and login user/customer
-    user = authenticate(request,username=username,password=password)
-    
-    if user:
-        login(request,user)
-        return redirect('profile') #redirect to profile jst for testing
-    messages.error(request,'User Account does not exist')
     
     return render(request,template,context)
 
@@ -163,6 +165,35 @@ def add_to_cart_view(request,name):
     messages.success(request,f"item {name} added to the cart")
     return HttpResponseRedirect(reverse('product_details',args=(name,)))
     
+
+def remove_from_cart_view(request,product_uuid):
+    product_instance = get_object_or_404(ProductInstance,product_uuid=product_uuid)#product instance to be removed from the cart
+    customer = Customer.objects.get(profile=request.user) 
+    cart = customer.cart #access the customer cart
+    cart.products.remove(product_instance) #remove the product from the cart
+    cart.save()
+    messages.success(request,f"item {product_instance.product.name} removed from the cart")
+    return HttpResponseRedirect(reverse('cart'))
+
+def cart_view(request):
+    template = 'shop/cart.html'
+    customer = Customer.objects.get(profile=request.user)
+    cart = customer.cart
+    cart_products = cart.products.all()
+    
+    
+    cart_items_total = cart_products.count()
+    
+    context={
+    'cart_products':cart_products,
+    'cart_items_total':cart_items_total
+
+    }
+    
+    return render(request,template,context)
+    
+    
+    
 def search_products_view(request):
     queryset =  Product.objects.all()
     search_query = request.GET.get('q')
@@ -175,15 +206,3 @@ def search_products_view(request):
         'products':queryset,
     }
     return render(request,template,context)
-
-def remove_from_cart_view(request,product_uuid):
-    product_instance = get_object_or_404(ProductInstance,product_uuid=product_uuid)#product instance to be removed from the cart
-    customer = Customer.objects.get(profile=request.user) 
-    cart = customer.cart #access the customer cart
-    cart.products.remove(product_instance) #remove the product from the cart
-    cart.save()
-    messages.success(request,f"item {product_instance.product.name} removed from the cart")
-    return HttpResponseRedirect(reverse('profile'))
-
-
-    

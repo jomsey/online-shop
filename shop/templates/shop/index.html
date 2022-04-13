@@ -1,1 +1,78 @@
-{% extends '../base.html'%} {% block title %} DelightOnline - products {%endblock title %} {% block content %} {% endblock content %}
+{% extends '../base.html' %} {% block content %}
+
+<div class="container">
+    <div class="block row py-4 top">
+        <div class="col-2 partition">
+            <ul id="categories">
+                {% for category in categories %}
+                <li><a href="{%url 'category' category.name%}">{{category.name}}</a></li>
+                {% endfor %}
+                <li><a href="{%url 'products_list'%}">All products</a></li>
+                <li><a href="">Other Categories</a></li>
+            </ul>
+        </div>
+
+        <div id="carousel-indicators" class="carousel slide col-7 partition" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carousel-indictaors" data-bs-slide-to="2" aria-label="Slide 3"></button>
+
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url(https://cdn.pixabay.com/photo/2021/03/19/13/40/online-6107598_960_720.png);">
+                </div>
+                <div class="carousel-item" style="background-image: url(https://cdn.pixabay.com/photo/2019/12/14/08/36/shopping-4694470_960_720.jpg)">
+                </div>
+                <div class="carousel-item" style="background-image: url(https://cdn.pixabay.com/photo/2019/12/14/08/36/shopping-4694470_960_720.jpg)">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col partition" style="background-color: transparent;">
+            <div class="partition sub-partition" style="margin-top:0;background-image:url(https://cdn.pixabay.com/photo/2020/11/18/20/18/black-friday-5756633__340.png)">
+            </div>
+            <div class="partition sub-partition" style="background-image: url(https://cdn.pixabay.com/photo/2021/07/10/14/31/online-shopping-6401553_960_720.png);">
+            </div>
+        </div>
+    </div>
+
+    <div class="block row py-4 g-2">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">Featured Products</h3>
+        </div>
+
+
+
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+
+
+
+
+    </div>
+    <div class="block row py-4 g-2">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">New On Market</h3>
+        </div>
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+
+    </div>
+
+    <div class="block row py-4 g-2 ">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">Christmas Offer</h3>
+        </div>
+        <div class="col partition"></div>
+        <div class="col partition"></div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -27,16 +27,12 @@ class Product(models.Model):
         else:
             return self.name
         
-        
+    #calculate percentage remaining stoke
     def stoke_left_percentage(self):
         if self.available>0:
             percentage = math.floor(self.available/self.stock_number*100) #nondecimal percentage
-            return f'"width:{str(percentage)}%"'
-            
-        
-        
-       
-    
+            return f'width:{percentage}%;' #css width of the product stoke remaining progress bar
+   
     def __str__(self):
         return self.name
     
@@ -92,6 +88,8 @@ class ProductReview(models.Model):
         else:
             return self.product.name
         
+    def get_rating(self):
+        return range(1,self.rating+1)        
           
 class Customer(models.Model):
     profile = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
@@ -100,11 +98,18 @@ class Customer(models.Model):
     def __str__(self):
         return self.profile.username
     
-    
+#To be implemented in the future
 class CustomerOrder(models.Model):
     pass
-
 class CustomerWishList(models.Model):
     pass
-
+class SlideImages(models.Model):
+    image_url= models.URLField(max_length=2000)  
+class Promotions(models.Model):
+    pass
+class Trader(models.Model):
+    pass
+class FeaturedProduct(models.Model):
+    pass
+    
     
