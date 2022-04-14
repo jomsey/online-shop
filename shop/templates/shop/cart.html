@@ -1,0 +1,47 @@
+{% extends '../base.html' %} {% block title %}Cart{% endblock title %} {% block content %}
+
+<div class="cart-items container py-5 row">
+
+
+    <div class="col-8 partition">
+        <h4>Cart({{cart_number}})</h4>
+        <hr> {% for item in cart_products %}
+        <div class="row m-2 bg-light">
+            <div class="col-8 row">
+                <div class="col-4"><img src="{{item.product.image_url}}" alt="" class="w-100"></div>
+                <div class="col-8"><small>{{item.product.name}}</small>
+                    
+
+                 <a href="{%url 'remove_from_cart' item.product_uuid%}">
+                     <div class=" border border-success text-succ text-center" style="width:200px" >      <span class="material-icons">delete</span>
+                       <strong>remove</strong></div>
+                </div>
+                 </a>
+                 
+
+            </div>
+
+            <div class="col-4">
+                {% if item.product.discount %}
+                <p class="card-text"><b>Ksh {{item.product.discount_product_price}}</b></p>
+                <strike>
+                    <p class="card-text">
+                        Ksh {{item.product.price}}
+                        <span class="badge bg-info m-2"><b>-{{item.product.discount}}%</b></span>
+                    </p>
+                </strike> {% else %}
+                <p class="card-text"><b>Ksh {{item.product.price}}</b></p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+    <div class="col partition">
+        {% include '../components/placeholder.html' %}
+    </div>
+
+
+</div>
+{% endblock content %}

@@ -108,7 +108,7 @@ class SlideImages(models.Model):
 class Promotions(models.Model):
     pass
 class Trader(models.Model):
-    pass
+   pass
 class FeaturedProduct(models.Model):
     pass
     

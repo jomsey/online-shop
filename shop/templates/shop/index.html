@@ -5,7 +5,7 @@
         <div class="col-2 partition">
             <ul id="categories">
                 {% for category in categories %}
-                <li><a href="{%url 'category' category.name%}">{{category.name}}</a></li>
+                <li><a href="{%url 'category' category.name%} ">{{category.name}}</a></li>
                 {% endfor %}
                 <li><a href="{%url 'products_list'%}">All products</a></li>
                 <li><a href="">Other Categories</a></li>
@@ -34,7 +34,7 @@
         <div class="col partition" style="background-color: transparent;">
             <div class="partition sub-partition" style="margin-top:0;background-image:url(https://cdn.pixabay.com/photo/2020/11/18/20/18/black-friday-5756633__340.png)">
             </div>
-            <div class="partition sub-partition" style="background-image: url(https://cdn.pixabay.com/photo/2021/07/10/14/31/online-shopping-6401553_960_720.png);">
+            <div class="partition sub-partition" style="background-image: url(https://c.tenor.com/Ih1DJLg4mzMAAAAM/black-friday-2020.gif);">
             </div>
         </div>
     </div>
@@ -46,11 +46,10 @@
 
 
 
-        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
-        <div class="col partition product-box">{% include "../components/product.html" %}</div>
-        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+        {% for product in products %}
         <div class="col partition product-box ">{% include "../components/product.html" %}</div>
 
+        {% endfor %}
 
 
 
@@ -59,10 +58,11 @@
         <div class="block-title container-fluid bg-success">
             <h3 class="text-center">New On Market</h3>
         </div>
+        {% for product in products %}
         <div class="col partition product-box ">{% include "../components/product.html" %}</div>
-        <div class="col partition product-box">{% include "../components/product.html" %}</div>
-        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
-        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+
+        {% endfor %}
+
 
     </div>
 

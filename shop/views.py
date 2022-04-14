@@ -15,10 +15,12 @@ from shop.models import Product,Category,Customer,Cart, ProductInstance,Category
 def index_view(request):
     template = 'shop/index.html'
     categories = get_all_categories(request)
-    slide_images= SlideImages.objects.all()
+    cart_items = cart_items_number(request)
+    products = Product.objects.all()[:4]
    
     context = {'categories':categories,
-               'images':slide_images}
+               'products':products,
+               'cart_number':cart_items}
     return render(request,template,context)
     
   
@@ -32,6 +34,7 @@ def product_list_view(request):
     paginator = Paginator(list(queryset),4,orphans=2)
     page_number = 1
     paginated_products = paginator.page(page_number)
+
     cart_items = cart_items_number(request)
 
     context  ={
@@ -75,19 +78,19 @@ def category_view(request,category):
     }
     return render(request,template,context)
 
+#accesed by only authenticated users
 #@login_required(login_url='login')
 def user_profile_view(request):
-    # customer = Customer.objects.get(profile=request.user)
-    # cart = customer.cart
-    # cart_products = cart.products.all()
+    customer = Customer.objects.get(profile=request.user)
+    cart = customer.cart
+    cart_products = cart.products.all()
+    cart_items_total = cart_products.count()
     
-    # cart_items_total = cart_products.count()
-    
-    # context={
-    # 'cart_products':cart_products,
-    # 'cart_items_total':cart_items_total
+    context={
+    'cart_products':cart_products,
+    'cart_items_total':cart_items_total
 
-    # }
+    }
     template='shop/profile.html'
     return render(request,template,context={})
     
@@ -115,8 +118,7 @@ def register_new_customer(request):
             
             #immediately login the customer 
             login(request,auth_user)
-            
-        
+               
     template='shop/register.html'
     context = {
         'form':form,
@@ -162,7 +164,7 @@ def add_to_cart_view(request,name):
     cart = customer.cart
     cart.products.add(product_instance)#add new product to the cart
     cart.save()
-    messages.success(request,f"item {name} added to the cart")
+    messages.success(request,f"{name} added to the cart")
     return HttpResponseRedirect(reverse('product_details',args=(name,)))
     
 
@@ -172,7 +174,7 @@ def remove_from_cart_view(request,product_uuid):
     cart = customer.cart #access the customer cart
     cart.products.remove(product_instance) #remove the product from the cart
     cart.save()
-    messages.success(request,f"item {product_instance.product.name} removed from the cart")
+    messages.success(request,f"{product_instance.product.name} has been removed from the cart")
     return HttpResponseRedirect(reverse('cart'))
 
 def cart_view(request):
@@ -180,23 +182,20 @@ def cart_view(request):
     customer = Customer.objects.get(profile=request.user)
     cart = customer.cart
     cart_products = cart.products.all()
-    
-    
     cart_items_total = cart_products.count()
     
     context={
     'cart_products':cart_products,
-    'cart_items_total':cart_items_total
+    'cart_number':cart_items_total
 
     }
     
     return render(request,template,context)
     
-    
-    
 def search_products_view(request):
     queryset =  Product.objects.all()
     search_query = request.GET.get('q')
+    cart_items = cart_items_number(request)
     template = 'shop/search.html'
     
     if search_query:
@@ -204,5 +203,6 @@ def search_products_view(request):
     
     context ={
         'products':queryset,
+        'cart_number':cart_items
     }
     return render(request,template,context)

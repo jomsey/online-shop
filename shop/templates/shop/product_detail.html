@@ -1,4 +1,97 @@
-{% extends '../base.html' %} {% block content %}
-<h1>Detail page</h1>
+{% extends '../base.html' %} {% block title %}{{product.name}} {% endblock title %} {% block content %}
+<div class="container detailed-container pt-5">
+    <div class="block row" style="background-color: transparent">
+        <div class="bg-light col-8 row partition">
+            <div class="col-5">
+                <img class="w-100" src="{{product.image_url}}" alt="....." />
+            </div>
+            <div class="col-7 pt-2">
+                <h5>{{product.name}}</h5>
+                <p>
+                    Category :<a href="{%url 'category' product.category.name%}">{{product.category.name}} |<small>same
+                            products from {{product.category.name}}</small></a>
+                </p>
 
+                {% if product.discount %}
+                <p class="card-text"><b>Ksh {{product.discount_product_price}}</b></p>
+                <strike>
+                    <p class="card-text">
+                        Ksh {{product.price}}
+                        <span class="badge bg-info m-2"><b>-{{product.discount}}%</b></span>
+                    </p>
+                </strike> {% else %}
+                <p class="card-text"><b>Ksh {{product.price}}</b></p>
+                {% endif %} {% if product.available %}
+                <small> {{product.available}} items left</small>
+                <div class="progress" style="height: 5px">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                {% else %}
+                <small>out of stoke</small> {% endif %}
+                <br />
+                <a href="{%url 'add_to_cart' product.name%}"><button type="button" class="btn btn-success add-cart-btn">
+                        <span class="material-icons"> shopping_cart </span>Add To Cart
+                    </button></a>
+            </div>
+        </div>
+
+
+
+
+        <div class=" col partition sub-partition" style="overflow: hidden;">
+            <img class="w-100" src="https://c.tenor.com/dhWY7nI3VG0AAAAd/indique-black-friday-indique-hair-gif.gif" alt="....">
+        </div>
+
+    </div>
+
+
+    <div class="block row py-4 g-2 ">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">Product Details</h3>
+        </div>
+        <p class="px-5" style="color: rgb(22, 22, 22);">{{product.description}}</p>
+    </div>
+
+    {% if same_category %}
+    <div class="block row py-4 g-2 ">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">You May Also Like</h3>
+        </div>
+        {% for product in same_category %}
+        <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+
+        {% endfor %}
+    </div>
+    {% endif %} {% if reviews %}
+    <div class="block row py-4 g-2 ">
+        <div class="block-title container-fluid bg-success">
+            <h3 class="text-center">Customer Feedback</h3>
+        </div>
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="review row">
+                <div class="col-8 px-5">
+                    <p><b>{{review.customer.profile}}</b></p>
+                    <p>{{review.review}}</p>
+                    <small class="text-success">{{review.date_made}}</small>
+                </div>
+
+                <div class="col-4">
+                    <div class="rating-rack" style="width: 150px; position:relative;left:50%;transform:translate(-50%)">
+                        {% for rate in review.get_rating %}
+                        <span class="material-icons text-success">
+                            star
+                        </span> {% endfor %}
+                    </div>
+                </div>
+                <hr>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
 {% endblock content %}

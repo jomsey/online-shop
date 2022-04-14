@@ -15,7 +15,10 @@
 </head>
 
 <body>
-    {% include 'components/navbar_component.html' %} {% block content %} {% endblock content %}
+    {% include 'components/alert_message.html' %}
+    <div class="banner container-fluid" style="background-image: url(https://ke.jumia.is/cms/2022/W14/HP/Generics/KE_Cross_EasterSale_Generic_0322_STB.gif)">
+    </div>
+    {% include 'components/navbar_component.html' %}{% block content %} {% endblock content %}
     <!-- {% include 'components/footer.html' %} -->
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
