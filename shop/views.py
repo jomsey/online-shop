@@ -22,12 +22,12 @@ def index_view(request):
     categories = get_all_categories(request)
     cart_items = cart_items_number(request)
     products = Product.objects.all()[:4]
-    # recent=get_recently_viewed_product(request)
-    
+    recent=get_recently_viewed_product(request)
+
     context = {'categories':categories,
                'products':products,
                'cart_number':cart_items,
-               # 'recent':recent
+               'recent':recent
                }
     return render(request,template,context)
     
@@ -55,7 +55,7 @@ def product_detail_view(request,name):
     """
     handles the details of a single product 
     """
-    # recent_products=get_recently_viewed_product(request)
+    recent_products=get_recently_viewed_product(request)
     queryset = get_object_or_404(Product,name=name)
     request.session['recent'] = name
     product_reviews = queryset.productreview_set.all()
@@ -65,7 +65,13 @@ def product_detail_view(request,name):
 
     if 'recently_viewed' in request.session:
          recent = request.session['recently_viewed'] #list of recently viewed products
-         recent.append(name)
+         
+         if name in recent:
+             recent.remove(name)
+             
+         recent.insert(0,name)
+         if len(recent)>4:
+            recent.pop()
 
     else:
         request.session['recently_viewed']=[name]
@@ -100,8 +106,8 @@ def category_view(request,category):
     }
     return render(request,template,context)
 
-#accesed by only authenticated users
-#@login_required(login_url='login')
+#accessed by only authenticated users
+@login_required(login_url='login')
 def user_profile_view(request):
     cart = get_cart(request)
     cart_products = cart.products.all()
@@ -140,14 +146,14 @@ def register_new_customer(request):
             #immediately login the customer 
             login(request,auth_user)
                
-    template='shop/register.html'
+    template='shop/auth_page.html'
     context = {
         'form':form,
     }
     return render(request,template,context=context)
 
 def login_view(request):
-    template = 'shop/login.html'
+    template = 'shop/auth_page.html'
     login_form = UserLoginForm()
 
     current_user=request.user
@@ -201,11 +207,13 @@ def cart_view(request):
     cart_products = cart.products.all()
     cart_items_total = cart_products.count()
     total_price=cart_overall_price_total(request)
+    recent=get_recently_viewed_product(request)
     
     context={
     'cart_products':cart_products,
     'cart_number':cart_items_total,
-    'total':total_price
+    'total':total_price,
+    'recent':recent,
 
     }
     
@@ -227,6 +235,7 @@ def search_products_view(request):
     }
     return render(request,template,context)
 
+@login_required(login_url='login') #proceed to make an order after login
 def create_order(request):
     customer = Customer.objects.get(profile=request.user)
     cart = customer.cart #to be submitted for checkout

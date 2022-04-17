@@ -1,7 +1,10 @@
 import math
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 from uuid import uuid4
+
+from numpy import product
 
 
 class Product(models.Model):
@@ -116,15 +119,25 @@ class Order(models.Model):
         return str(self.order_id)
     
     
-#To be implemented in the future
-# class CustomerWishList(models.Model):
-#     pass
-  
-# class Promotions(models.Model):
-#     pass
-# class Trader(models.Model):
-#    pass
-# class FeaturedProduct(models.Model):
-#     pass
+class FeaturedProduct(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
     
+class Trader(models.Model):
+    trader = models.OneToOneField(User,on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=150)
+    second_name = models.CharField(max_length=150)
+    products = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
+    phone_number = models.CharField(max_length=15)
+    address = models.CharField(max_length=150)
+    
+
+
+class CustomerWishList(models.Model):
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    products = models.ManyToManyField(ProductInstance)
+  
+class Promotions(models.Model):
+    name = models.CharField(max_length=150)
+    products = models.ManyToManyField(Product)
+
     
