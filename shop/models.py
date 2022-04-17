@@ -64,7 +64,8 @@ class ProductSpecification(models.Model):
 
 
 class Cart(models.Model):
-    products = models.ManyToManyField(ProductInstance) #product instance to be added to the cart  
+    products = models.ManyToManyField(ProductInstance) #product instance to be added to the cart 
+    cart_uuid = models.UUIDField(editable=False,default=uuid4,null=True,unique=True)
 
 
 class ProductReview(models.Model):
@@ -97,19 +98,33 @@ class Customer(models.Model):
     cart =  models.OneToOneField(Cart,on_delete=models.SET_NULL,null=True,blank=True) 
     def __str__(self):
         return self.profile.username
+
+
+    
+class Order(models.Model):
+    STATUS = [
+        ('P','Pending'),
+        ('D','Delivered')
+    ]
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    status = models.CharField(max_length=1,choices=STATUS,default="P")
+    date_made = models.DateTimeField(auto_now_add=True)
+    order_cart = models.ForeignKey(Cart,on_delete=models.PROTECT,null=True,default=None,editable=False)
+    order_id = models.UUIDField(primary_key=True,editable=False,default=uuid4)
+    
+    def __str__(self) -> str:
+        return str(self.order_id)
+    
     
 #To be implemented in the future
-class CustomerOrder(models.Model):
-    pass
-class CustomerWishList(models.Model):
-    pass
-class SlideImages(models.Model):
-    image_url= models.URLField(max_length=2000)  
-class Promotions(models.Model):
-    pass
-class Trader(models.Model):
-   pass
-class FeaturedProduct(models.Model):
-    pass
+# class CustomerWishList(models.Model):
+#     pass
+  
+# class Promotions(models.Model):
+#     pass
+# class Trader(models.Model):
+#    pass
+# class FeaturedProduct(models.Model):
+#     pass
     
     

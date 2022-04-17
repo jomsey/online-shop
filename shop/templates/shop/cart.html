@@ -3,31 +3,36 @@
 <div class="cart-items container py-5 row">
 
 
-    <div class="col-8 partition">
-        <h4>Cart({{cart_number}})</h4>
-        <hr> {% for item in cart_products %}
-        <div class="row m-2 bg-light">
+    {% if cart_number %}
+    <div class="col-8 partition overflow-hidden">
+        <div class="bg-success text-light p-2">
+            <h4>Cart({{cart_number}})</h4>
+        </div>
+        {% for item in cart_products %}
+        <div class="row m-2 bg-light shadow">
             <div class="col-8 row">
-                <div class="col-4"><img src="{{item.product.image_url}}" alt="" class="w-100"></div>
-                <div class="col-8"><small>{{item.product.name}}</small>
-                    
 
-                 <a href="{%url 'remove_from_cart' item.product_uuid%}">
-                     <div class=" border border-success text-succ text-center" style="width:200px" >      <span class="material-icons">delete</span>
-                       <strong>remove</strong></div>
+                <div class="col-4"><img src="{{item.product.image_url}}" alt="" class="w-100"></div>
+
+                <div class="col-8">
+                    <small>{{item.product.name}}</small>
+                    <a href="{%url 'remove_from_cart' item.product_uuid%}">
+                        <div class=" border border-success text-success text-center remove-cart-btn rounded">
+                            <span class="material-icons" style="margin-right: 90px;">delete</span>
+                            <strong>remove</strong>
+                        </div>
+                    </a>
                 </div>
-                 </a>
-                 
 
             </div>
 
             <div class="col-4">
                 {% if item.product.discount %}
-                <p class="card-text"><b>Ksh {{item.product.discount_product_price}}</b></p>
+                <p class="card-text text-secondary"><b>Ksh {{item.product.discount_product_price}}</b></p>
                 <strike>
-                    <p class="card-text">
+                    <p class="card-text text-secondary">
                         Ksh {{item.product.price}}
-                        <span class="badge bg-info m-2"><b>-{{item.product.discount}}%</b></span>
+                        <span class="badge bg-secondary m-2"><b>-{{item.product.discount}}%</b></span>
                     </p>
                 </strike> {% else %}
                 <p class="card-text"><b>Ksh {{item.product.price}}</b></p>
@@ -38,9 +43,37 @@
         {% endfor %}
 
     </div>
-    <div class="col partition">
-        {% include '../components/placeholder.html' %}
+    <div class="col partition overflow-hidden" style="height:230px">
+        <div class=" bg-success text-center text-light p-2">
+            <h4>Cart Summary</h4>
+        </div>
+
+        <div class="content p-2">
+            <h6 class="uniform"> <small><b>Total Price</b></small> Ksh {{total}}</h6>
+            <h6> <small><b>Total Items</b></small> {{cart_number}}</h6>
+        </div>
+        <hr>
+        <a href="{%url 'checkout'%}">
+            <div class="btn btn-success text-center checkout-btn">
+                <b> check out ( Ksh {{total}} )</b>
+            </div>
+        </a>
     </div>
+    <!-- Empty cart message -->
+    {% else %}
+
+    <div class="message p-5 "><img src="https://candleroses.com/images/Cart-empty.gif" alt="">
+        <h4 class="text-secondary text-center m-5" style="font-family: cursive;">You cart is empty !</h4>
+
+    </div>
+    <a href="{%url 'products_list'%}">
+        <div class="start-shopping btn btn-success text-center p-2 m-2">
+            <h5>Start Shopping</h5>
+        </div>
+    </a>
+
+
+    {% endif %}
 
 
 </div>

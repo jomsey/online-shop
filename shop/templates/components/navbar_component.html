@@ -50,7 +50,9 @@
                     <a class="nav-link" href="{%url 'cart'%}"><span class="material-icons">
                             shopping_cart
                         </span>
+                        {% if cart_number %}
                         <small class=" text-info cart-number">{{cart_number}}</small>
+                        {% endif %}
                     </a>
                 </li>
 

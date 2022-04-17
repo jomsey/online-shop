@@ -2,6 +2,14 @@
         background-color: rgb(29, 29, 29) !important;
     }
     
+    .uniform {
+        color: rgb(29, 29, 29);
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
     .navbar .dropdown-menu a {
         color: #fff;
     }
@@ -125,6 +133,28 @@
         margin-top: 5px;
     }
     
+    .msg-container,
+    .message {
+        background-color: #fff;
+    }
+    
+    .message {
+        filter: grayscale(100%) brightness(50%);
+    }
+    
+    .message img {
+        width: 300px;
+    }
+    
+    .start-shopping {
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .message img,
+    .checkout-btn,
     .cart-items,
     .product,
     .product_list,
@@ -162,6 +192,26 @@
     
     .cart_product_image {
         width: 100px;
+    }
+    
+    .content div,
+    .remove-cart-btn {
+        display: flex;
+        justify-content: baseline;
+        width: 200px;
+        padding: 10px;
+        position: relative;
+        top: 15px;
+    }
+    
+    .checkout-btn {
+        width: 80%;
+    }
+    
+    .remove-cart-btn:hover {
+        background-color: #5fec80;
+        color: #fff !important;
+        border: none !important;
     }
     
     @media screen and (max-width: 920px) {

@@ -1,0 +1,12 @@
+{% if recent %}
+<div class="block row py-4 g-2">
+    <div class="block-title container-fluid bg-success">
+        <h3 class="text-center">Recently Viewed</h3>
+    </div>
+
+    {% for product in recent %}
+    <div class="col partition product-box ">{% include "../components/product.html" %}</div>
+    {% endfor %}
+
+</div>
+{% endif %}

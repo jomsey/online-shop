@@ -39,30 +39,27 @@
         </div>
     </div>
 
+    {% include '../components/recently_viewed.html' %}
+
     <div class="block row py-4 g-2">
         <div class="block-title container-fluid bg-success">
             <h3 class="text-center">Featured Products</h3>
         </div>
 
-
-
         {% for product in products %}
         <div class="col partition product-box ">{% include "../components/product.html" %}</div>
-
         {% endfor %}
 
-
-
     </div>
+
     <div class="block row py-4 g-2">
         <div class="block-title container-fluid bg-success">
             <h3 class="text-center">New On Market</h3>
         </div>
+
         {% for product in products %}
         <div class="col partition product-box ">{% include "../components/product.html" %}</div>
-
         {% endfor %}
-
 
     </div>
 
