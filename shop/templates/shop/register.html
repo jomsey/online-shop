@@ -1,0 +1,76 @@
+{% extends '../base.html'%} {% block title %} DelightOnline - Auth {%endblock title %} {% block content %}
+
+<div class="container bg-dark text-muted  ">
+
+    <div class="row m-5">
+        <form class="register-form mt-5 mb-5">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="username" class="form-control bg-dark bg-dark border-success" />
+                    <label class="form-label" for="username">Username</label>
+                </div>
+            </div>
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="first_name" class="form-control bg-dark bg-dark border-success" />
+                        <label class="form-label" for="first_name">First name</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="last-name" class="form-control bg-dark bg-dark border-success" />
+                        <label class="form-label" for="last-name">Last name</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="form3Example3" class="form-control bg-dark bg-dark border-success" />
+                <label class="form-label" for="form3Example3">Email address</label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="form3Example4" class="form-control bg-dark border-success" />
+                <label class="form-label" for="form3Example4">Password</label>
+            </div>
+
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2 bg-dark border-success" type="checkbox" value="" id="form2Example33" checked />
+                <label class="form-check-label" for="form2Example33">
+                    Subscribe to our newsletter
+                </label>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-block mb-4 w-100">Sign up</button>
+
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>or sign up with:</p>
+
+                <div style="font-size: 22px;">
+                    <a href=""> <i class="bi bi-facebook me-4  text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-google me-4 text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-twitter me-4  text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-github me-4 text-success"></i></a>
+
+                </div>
+
+                <p class="text-center m-2"> Already registered ? <a href="{%url 'login'%}" class="link-success">Sign in
+                        here</a> </p>
+
+
+            </div>
+        </form>
+
+    </div>
+</div>
+{%endblock%}

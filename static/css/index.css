@@ -1,232 +1,263 @@
-    body {
-        background-color: rgb(29, 29, 29) !important;
+body {
+    background-color: rgb(29, 29, 29) !important;
+}
+
+.uniform {
+    color: rgb(29, 29, 29);
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar .dropdown-menu a {
+    color: #fff;
+}
+
+.navbar .navbar-nav li a:hover {
+    background-color: transparent;
+    color: #5fec80;
+}
+
+.navbar .dropdown-menu li .btn {
+    width: 90%;
+}
+
+.navbar-brand {
+    font-family: cursive;
+}
+
+.navbar-nav {
+    position: relative;
+    left: 50%;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar .navbar-collapse .dropdown-menu {
+    width: 300px;
+}
+
+.navbar form input {
+    border: 1px solid #fff;
+}
+
+.partition {
+    color: rgb(22, 20, 20);
+    border-radius: 5px;
+    background-color: rgb(202, 202, 202);
+    margin: 0 10px;
+    padding: 0 !important;
+}
+
+.carousel-item {
+    border-radius: 5px;
+    height: 340px;
+}
+
+.banner,
+.partition,
+.carousel-item {
+    background-size: cover !important;
+    background-repeat: no-repeat;
+}
+
+.sub-partition {
+    height: 49%;
+    margin: 5px 0;
+}
+
+#categories {
+    margin-top: 20px;
+}
+
+.partition ul {
+    list-style-type: none;
+}
+
+.partition ul li a {
+    text-decoration: none;
+}
+
+.block:not(.top) {
+    background-color: rgb(202, 202, 202);
+    padding: 0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.block .partition:last-child {
+    margin-left: 0;
+}
+
+.block-title {
+    height: 40px;
+    position: relative;
+    bottom: 32px;
+    color: #fff;
+}
+
+.carousel-indicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+}
+
+.banner {
+    height: 60px;
+    background-position-y: center;
+}
+
+.badge.discount {
+    position: absolute;
+    left: 80%;
+}
+
+.part {
+    width: 220px;
+    height: 160px;
+}
+
+.product {
+    margin: 0 !important;
+    width: 14rem;
+    height: 20rem;
+    overflow: hidden;
+}
+
+.product-box {
+    background: transparent;
+}
+
+.product img {
+    width: 60%;
+    height: 150px;
+    margin-top: 5px;
+}
+
+.msg-container,
+.message {
+    background-color: #fff;
+}
+
+.message {
+    filter: grayscale(100%) brightness(50%);
+}
+
+.message img {
+    width: 300px;
+}
+
+.start-shopping {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+input {
+    color: rgb(187, 187, 187) !important;
+}
+
+.pagination,
+.register-form,
+.login-form,
+.message img,
+.checkout-btn,
+.cart-items,
+.product,
+.product_list,
+.product img,
+.out button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdown-item:not(.out),
+.nav-link {
+    display: flex;
+    justify-content: baseline;
+    padding: 10px;
+}
+
+.dropdown-item:not(.out) span {
+    margin-right: 20px;
+}
+
+.cart-number {
+    position: relative;
+    top: -5px;
+}
+
+.add-cart-btn {
+    width: 100% !important;
+}
+
+.add-cart-btn span {
+    position: relative;
+    right: 100px;
+}
+
+.cart_product_image {
+    width: 100px;
+}
+
+.content div,
+.remove-cart-btn {
+    display: flex;
+    justify-content: baseline;
+    width: 200px;
+    padding: 10px;
+    position: relative;
+    top: 15px;
+}
+
+.checkout-btn {
+    width: 80%;
+}
+
+.remove-cart-btn:hover {
+    background-color: #5fec80;
+    color: #fff !important;
+    border: none !important;
+}
+
+.register-form,
+.login-form {
+    width: 400px;
+}
+
+@media screen and (max-width: 920px) {
+    .navbar form {
+        margin: 20px 0;
     }
-    
-    .uniform {
-        color: rgb(29, 29, 29);
-    }
-    
-    a {
-        text-decoration: none;
-    }
-    
-    .navbar .dropdown-menu a {
-        color: #fff;
-    }
-    
-    .navbar .navbar-nav li a:hover {
-        background-color: transparent;
-        color: #5fec80;
-    }
-    
-    .navbar .dropdown-menu li .btn {
-        width: 90%;
-    }
-    
-    .navbar-brand {
-        font-family: cursive;
-    }
-    
     .navbar-nav {
+        position: static;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .navbar form {
         position: relative;
-        left: 50%;
-        width: 200px;
-        display: flex;
-        justify-content: space-between;
+        left: 25%;
+        transform: translateX(-25%);
     }
-    
-    .navbar .navbar-collapse .dropdown-menu {
-        width: 300px;
-    }
-    
-    .navbar form input {
-        width: 350px !important;
-        border: 1px solid #fff;
-    }
-    
-    .partition {
-        color: rgb(22, 20, 20);
-        border-radius: 5px;
-        background-color: rgb(202, 202, 202);
-        margin: 0 10px;
-        padding: 0 !important;
-    }
-    
-    .carousel-item {
-        border-radius: 5px;
-        height: 340px;
-    }
-    
-    .banner,
-    .partition,
-    .carousel-item {
-        background-size: cover !important;
-        background-repeat: no-repeat;
-    }
-    
-    .sub-partition {
-        height: 49%;
-        margin: 5px 0;
-    }
-    
-    #categories {
-        margin-top: 20px;
-    }
-    
-    .partition ul {
-        list-style-type: none;
-    }
-    
-    .partition ul li a {
-        text-decoration: none;
-    }
-    
-    .block:not(.top) {
-        background-color: rgb(202, 202, 202);
-        padding: 0;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        overflow: hidden;
-    }
-    
-    .block .partition:last-child {
-        margin-left: 0;
-    }
-    
-    .block-title {
-        height: 40px;
-        position: relative;
-        bottom: 32px;
-        color: #fff;
-    }
-    
-    .carousel-indicators button {
-        width: 10px !important;
-        height: 10px !important;
-        border-radius: 50%;
-    }
-    
-    .banner {
-        height: 60px;
-        background-position-y: center;
-    }
-    
-    .badge.discount {
-        position: absolute;
-        left: 80%;
-    }
-    
-    .product {
-        margin: 0 !important;
-        width: 14rem;
-        height: 20rem;
-        overflow: hidden
-    }
-    
-    .product-box {
-        background: transparent;
-    }
-    
-    .product img {
-        width: 60%;
-        height: 150px;
-        margin-top: 5px;
-    }
-    
-    .msg-container,
-    .message {
-        background-color: #fff;
-    }
-    
-    .message {
-        filter: grayscale(100%) brightness(50%);
-    }
-    
-    .message img {
-        width: 300px;
-    }
-    
-    .start-shopping {
-        position: absolute;
-        bottom: 60px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .message img,
-    .checkout-btn,
-    .cart-items,
-    .product,
-    .product_list,
-    .product img,
-    .out button {
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .dropdown-item:not(.out),
-    .nav-link {
+}
+
+@media screen and (max-width: 428px) {
+    .parts {
+        margin: 20px;
         display: flex;
         justify-content: baseline;
-        padding: 10px;
     }
-    
-    .dropdown-item:not(.out) span {
-        margin-right: 20px;
+    .part {
+        width: 50%;
+        margin: 10px;
     }
-    
-    .cart-number {
-        position: relative;
-        top: -5px;
+    .part:nth-child(2) {
+        width: 30%;
     }
-    
-    .add-cart-btn {
-        width: 100% !important;
-    }
-    
-    .add-cart-btn span {
-        position: relative;
-        right: 100px;
-    }
-    
-    .cart_product_image {
-        width: 100px;
-    }
-    
-    .content div,
-    .remove-cart-btn {
-        display: flex;
-        justify-content: baseline;
-        width: 200px;
-        padding: 10px;
-        position: relative;
-        top: 15px;
-    }
-    
-    .checkout-btn {
-        width: 80%;
-    }
-    
-    .remove-cart-btn:hover {
-        background-color: #5fec80;
-        color: #fff !important;
-        border: none !important;
-    }
-    
-    @media screen and (max-width: 920px) {
-        .navbar form {
-            margin: 20px 0;
-        }
-        .navbar-nav {
-            position: static;
-        }
-    }
-    
-    @media screen and (min-width:992px) {
-        .navbar form {
-            position: relative;
-            left: 25%;
-            transform: translateX(-25%);
-        }
-    }
+}

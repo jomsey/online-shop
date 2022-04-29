@@ -1,7 +1,7 @@
 <a href="{%url 'product_details' product.name%}" style="text-decoration: none;color:black">
     <div class="card product">
         {% if product.discount %}
-        <span class="badge discount bg-success">- {{product.discount}}%</span> {% endif %}
+        <span class="badge discount bg-success" style="z-index: 2">- {{product.discount}}%</span> {% endif %}
         <img src="{{product.image_url}}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title" style="font-size: 16px;">{{product.product_short_name_version}}</h5>

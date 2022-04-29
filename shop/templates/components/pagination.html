@@ -1,0 +1,14 @@
+{% if page_obj %}
+
+
+<div class="paginator row ">
+
+    {% if page_obj.has_previous%}
+    <a class="text-success  col-1  border border-success" href="?page={{page_obj.previous_page_number}}">Previous</a> {% endif %} {% if page_obj.has_next%}
+    <a class="text-success col-1  border border-success" href="?page={{page_obj.next_page_number}}">Next</a> {% endif %}
+
+    <p class="text-success col-3"> page {{page_obj.number}} out of {{total_pages}}</p>
+</div>
+
+
+{% endif %}

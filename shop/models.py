@@ -1,10 +1,8 @@
 import math
-from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 from uuid import uuid4
 
-from numpy import product
 
 
 class Product(models.Model):
@@ -22,6 +20,8 @@ class Product(models.Model):
             discount = self.discount/100*self.price
             new_price = self.price-discount
             return int(new_price)
+        else:
+            return self.price #for items without discount
         
     def product_short_name_version(self):
         if len(self.name) > 18:
@@ -52,6 +52,7 @@ class ProductInstance(models.Model):
 #category to which the product belongs
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    
     def __str__(self):
         return self.name
     
@@ -124,6 +125,7 @@ class FeaturedProduct(models.Model):
     
 class Trader(models.Model):
     trader = models.OneToOneField(User,on_delete=models.CASCADE)
+    email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150)
     second_name = models.CharField(max_length=150)
     products = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
@@ -136,7 +138,7 @@ class CustomerWishList(models.Model):
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     products = models.ManyToManyField(ProductInstance)
   
-class Promotions(models.Model):
+class Promotion(models.Model):
     name = models.CharField(max_length=150)
     products = models.ManyToManyField(Product)
 

@@ -1,0 +1,59 @@
+{% extends '../base.html'%} {% block title %} DelightOnline - Auth {%endblock title %} {% block content %}
+
+<div class="container bg-dark text-muted  ">
+
+    <div class="m-5  p-5">
+        <form class="login-form" method="post">
+            {%csrf_token%}
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="user" name="username" class="form-control bg-dark bg-dark border-success" />
+                    <label class="form-label" for="user">Username</label>
+                </div>
+            </div>
+
+
+            <!-- Password input -->
+            <div class="form-outline mb-2">
+                <input type="password" id="password" name="password" class="form-control bg-dark border-success" />
+                <label class="form-label" for="password">Password</label>
+            </div>
+            {% if error %}
+            <div class="m-2">
+                <small class="text-danger">{{error}}</small>
+            </div>{% endif %}
+
+
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-block mb-4 w-100">Sign in</button>
+
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>or sign in with:</p>
+
+                <div style="font-size: 22px;">
+                    <a href=""> <i class="bi bi-facebook me-4  text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-google me-4 text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-twitter me-4  text-success"></i></a>
+
+                    <a href=""> <i class="bi bi-github me-4 text-success"></i></a>
+
+                </div>
+
+
+            </div>
+            <p class="text-center m-2"> Not registered ? <a href="{%url 'register'%}" class="link-success">Sign up
+                    here</a> </p>
+
+        </form>
+
+
+
+
+
+    </div>
+</div>
+{%endblock%}

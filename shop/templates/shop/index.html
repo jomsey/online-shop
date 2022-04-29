@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="block row py-4 top">
-        <div class="col-2 partition">
+        <div class="col-sm-2 partition categories">
             <ul id="categories">
                 {% for category in categories %}
                 <li><a href="{%url 'category' category.name%} ">{{category.name}}</a></li>
@@ -12,7 +12,7 @@
             </ul>
         </div>
 
-        <div id="carousel-indicators" class="carousel slide col-7 partition" data-bs-ride="carousel">
+        <div id="carousel-indicators" class="carousel slide col-sm-7 partition" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carousel-indicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -31,10 +31,10 @@
 
         </div>
 
-        <div class="col partition" style="background-color: transparent;">
-            <div class="partition sub-partition" style="margin-top:0;background-image:url(https://cdn.pixabay.com/photo/2020/11/18/20/18/black-friday-5756633__340.png)">
+        <div class="col-md-2 parts" style="background-color: transparent;">
+            <div class="partition sub-partition part" style="margin-top:0;background-image:url(https://cdn.pixabay.com/photo/2020/11/18/20/18/black-friday-5756633__340.png)">
             </div>
-            <div class="partition sub-partition" style="background-image: url(https://c.tenor.com/Ih1DJLg4mzMAAAAM/black-friday-2020.gif);">
+            <div class="partition sub-partition part" style="background-image: url(https://c.tenor.com/Ih1DJLg4mzMAAAAM/black-friday-2020.gif);">
             </div>
         </div>
     </div>

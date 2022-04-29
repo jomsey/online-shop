@@ -10,13 +10,12 @@ def get_cart(request):
         """
 
         if request.user.is_authenticated:
-                customer = Customer.objects.get(profile=request.user)
-                cart = customer.cart
+                customer = Customer.objects.get(profile=request.user) 
+                cart = customer.cart  #customer cart is created on register
         else:
-                #create user cart if deoesn't exist or retrieve it from the session data
+                #create user cart or retrieve it from the session data
                 if 'cart_id' in request.session:
                         cart = Cart.objects.get(cart_uuid=request.session['cart_id'])
-                        print(request.session['cart_id'])
                        
                 else:
                          cart = Cart.objects.create() # create cart for the anonymous user
@@ -31,9 +30,12 @@ def  cart_items_number(request):
         """Gets the user's cart and retirn the total number of product added to the cart"""
         cart = get_cart(request)
         cart_products = cart.products.all()
-        cart_items_total = cart_products.count()
         
-        return cart_items_total
+        number = 0
+        for product in cart_products:
+                number += product.product_count
+        
+        return number
 
 
 def get_all_categories(request,*args, **kwargs):
@@ -46,11 +48,11 @@ def cart_overall_price_total(request):
         Retrieves all products in the cart and calculates the total price
         """
         cart=get_cart(request)
-        cart_products = cart.products.all()
+        cart_products = cart.products.select_related('product').all()
         total = 0
         
-        # for product in cart_products:
-        #         total+=product.product.discount_product_price()
+        for product in cart_products:
+                total+=(product.product.discount_product_price())*product.product_count
         return total
                 
 def get_recently_viewed_product(request):

@@ -4,13 +4,13 @@
 
 
     {% if cart_number %}
-    <div class="col-8 partition overflow-hidden">
+    <div class="col-sm-8 partition overflow-hidden mb-5">
         <div class="bg-success text-light p-2">
             <h4>Cart({{cart_number}})</h4>
         </div>
         {% for item in cart_products %}
         <div class="row m-2 bg-light shadow">
-            <div class="col-8 row">
+            <div class="col-sm-8 row">
 
                 <div class="col-4"><img src="{{item.product.image_url}}" alt="" class="w-100"></div>
 
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="col-4">
+            <div class="col-sm-4  p-2">
                 {% if item.product.discount %}
                 <p class="card-text text-secondary"><b>Ksh {{item.product.discount_product_price}}</b></p>
                 <strike>
@@ -37,13 +37,24 @@
                 </strike> {% else %}
                 <p class="card-text"><b>Ksh {{item.product.price}}</b></p>
                 {% endif %}
+                <div class="row col justify-center">
+                    <div class="col-3"> <a href="{%url 'decrease' item.product_uuid%}"><span
+                                class="badge p-2 bg-success text-light">-</span></a></div>
+                    <div class="col-2"> <span>{{item.product_count}}</span></div>
+                    <div class="col-3"><a href="{%url 'increase' item.product_uuid%}"><span
+                                class="badge  p-2 bg-success text-light">+</span></a></div>
+
+                    <small>{{item.product_count}} {% if item.product_count == 1 %}item {% else %}
+                        items{% endif %} added</small>
+                </div>
+
             </div>
         </div>
 
         {% endfor %}
 
     </div>
-    <div class="col partition overflow-hidden" style="height:230px">
+    <div class="col-sm partition overflow-hidden" style="height:230px">
         <div class=" bg-success text-center text-light p-2">
             <h4>Cart Summary</h4>
         </div>
@@ -71,11 +82,6 @@
             <h5>Start Shopping</h5>
         </div>
     </a>
-
-
-
-
-
 </div>
 {% endif %}
 <div class="container">{% include '../components/recently_viewed.html' %}</div>

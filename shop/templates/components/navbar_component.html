@@ -7,28 +7,32 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <form class="d-flex" action="{%url 'search'%}">
-            <input class="form-control me-2 bg-dark  border-success" type="search" placeholder="Search product , category" aria-label="Search" name="q" style="width: 300px" />
-            <button class="btn btn-outline-success" type="submit">Search</button>
+        <form class="row" action="{%url 'search'%}">
+            <input class="form-control col-6 m  -2 bg-dark  border-success" type="search" placeholder="Search product , category" aria-label="Search" name="q" style="width: 300px" />
+            <button class="btn col-4 btn-outline-success" type="submit">Search</button>
         </form>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                        Hello {{user}}
+                        {% else %}
                         Account
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown" style="color: #fff">
 
-                        <li><a class="dropdown-item" href="{%url 'profile'%}"><span class="material-icons">
-                                    person
+                        <li><a class="dropdown-item" href="{%url 'profile'%}"><span class="bi bi-person">
+
                                 </span>My Account</a></li>
 
-                        <li><a class="dropdown-item" href="#"><span class="material-icons">
-                                    favorite
+                        <li><a class="dropdown-item" href="#"><span class="bi bi-heart">
+
                                 </span>Saved Items</a></li>
 
-                        <li><a class="dropdown-item" href="#"><span class="material-icons">
-                                    shopping_basket
+                        <li><a class="dropdown-item" href="{%url 'orders'%}"><span class="bi bi-bag-check">
+
                                 </span>My Orders</a></li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -39,14 +43,14 @@
                                 <button class="btn btn-success">SIGN OUT</button>
                             </a> {% else %}
                             <a class="dropdown-item out" href="{%url 'login'%}">
-                                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">SIGN
+                                <button class="btn btn-success">SIGN
                                     IN</button></a>
                             {% endif %}
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item cart">
                     <a class="nav-link" href="{%url 'cart'%}"><span class="material-icons">
                             shopping_cart
                         </span>
@@ -56,55 +60,9 @@
                     </a>
                 </li>
 
-                <!-- {% if user.is_authenticated %}
 
-                <li class="nav-item">
-                    <li class="nav-item user">
-                        <a class="nav-link" href="{%url 'cart'%}"><span class="material-icons">
-                            person
-                        </span>
-                        Hello {{user}}
-                    </a>
-                    </li>
-                </li>
-
-                {% endif %} -->
             </ul>
         </div>
     </div>
+
 </nav>
-
-<!--Login Modal  -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3 ">
-                        <label for="username" class="form-label ">Username</label>
-                        <input type="username " class="form-control " id="username" name="username">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Login</button>
-                    <p>Don't have an account
-                        <a href="register here"> signup here</a>
-                    </p>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>

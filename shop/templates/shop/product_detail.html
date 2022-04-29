@@ -1,11 +1,11 @@
 {% extends '../base.html' %} {% block title %}{{product.name}} {% endblock title %} {% block content %}
 <div class="container detailed-container pt-5">
     <div class="block row" style="background-color: transparent">
-        <div class="bg-light col-8 row partition">
+        <div class="bg-light col-sm-8 row partition ">
             <div class="col-5">
                 <img class="w-100" src="{{product.image_url}}" alt="....." />
             </div>
-            <div class="col-7 pt-2">
+            <div class="col-sm-7 pt-2">
                 <h5>{{product.name}}</h5>
                 <p>
                     Category :<a href="{%url 'category' product.category.name%}">{{product.category.name}} |<small>same
@@ -29,7 +29,8 @@
                 {% else %}
                 <small>out of stoke</small> {% endif %}
                 <br />
-                <a href="{%url 'add_to_cart' product.name%}"><button type="button" class="btn btn-success add-cart-btn">
+                <a href="{%url 'add_to_cart' product.name%}"><button type="button"
+                        class="mb-2 btn btn-success add-cart-btn">
                         <span class="material-icons"> shopping_cart </span>Add To Cart
                     </button></a>
             </div>
@@ -38,7 +39,7 @@
 
 
 
-        <div class=" col partition sub-partition" style="overflow: hidden;">
+        <div class=" col-sm partition sub-partition m-2" style="overflow: hidden;">
             <img class="w-100" src="https://c.tenor.com/dhWY7nI3VG0AAAAd/indique-black-friday-indique-hair-gif.gif" alt="....">
         </div>
 

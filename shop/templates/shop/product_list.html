@@ -2,7 +2,7 @@
 
 <div class="product_list row container" style="margin:  30px 0;">
 
-    {% if products %} {% for product in products %}
+    {% if page_obj %} {% for product in page_obj %}
     <div class="col" style="margin-bottom: 25px;">{% include "../components/product.html" %} </div>{% endfor %} {% else %}
     <div class="message p-5 "><img src="https://candleroses.com/images/Cart-empty.gif" alt=""> {% if search %}
         <h4 class="text-secondary text-center m-5" style="font-family: cursive;">There are no results for "{{search}}"
@@ -20,7 +20,7 @@
             <h5>Go To Home Page</h5>
         </div>
     </a>
-    {% endif %}
+    {% endif %} {% include "../components/pagination.html" %}
 
 </div>
 

@@ -3,7 +3,7 @@
 
 <div class="cart-items container py-5 row">
 
-    <div class="col-4 partition overflow-hidden">
+    <div class="col-sm-4 partition overflow-hidden m-2">
         <div class="bg-success text-light p-2">
             <h4>Menu</h4>
         </div>
@@ -11,7 +11,7 @@
             <a href="">
                 <div class="  text-success text-center ">
                     <span class="material-icons" style="margin-right: 30px;">shopping_basket</span>
-                    <strong>Orders</strong>
+                    <a href="{%url 'orders'%}"><strong>Orders</strong></a>
                 </div>
             </a>
 
@@ -40,83 +40,52 @@
             <a href="">
                 <div class="  text-success text-center mb-5 ">
                     <span class="material-icons" style="margin-right: 30px;">logout</span>
-                    <strong>Logout</strong>
+                    <a href="{%url 'logout'%}"></a>
                 </div>
             </a>
         </div>
 
     </div>
-    <div class="col partition overflow-hidden" style="height:230px">
+    <div class="col-sm partition overflow-hidden" style="height:230px">
         <div class=" bg-success text-center text-light p-2">
             <h4>Account Details</h4>
         </div>
+
+        <table class="table table-striped">
+
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td></td>
+                    <td>{{user.profile.username}}</td>
+                    <td></td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td></td>
+                    <td>{{user.profile.email}}</td>
+                    <td></td>
+
+                </tr>
+                <tr>
+                    <th scope="row">Address</th>
+                    <td></td>
+                    <td>Winstonshere</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Phone</th>
+                    <td></td>
+                    <td>{{user.phone_number}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 
 
 </div>
-
-
-
-
-
-<!-- <div class="m-2 row container py-10 ">
-
-    <div class="col-2 overflow-hidden patition border">
-        <div class=" bg-success  text-light p-2">
-            <h4>MENU</h4>
-        </div>
-        <div class="content">
-            <a href="">
-                <div class="  text-success text-center ">
-                    <span class="material-icons" style="margin-right: 30px;">shopping_basket</span>
-                    <strong>Orders</strong>
-                </div>
-            </a>
-
-
-            <a href="">
-                <div class="  text-success text-center ">
-                    <span class="material-icons" style="margin-right: 30px;">reviews</span>
-                    <strong>Reviews</strong>
-                </div>
-            </a>
-            <a href="">
-                <div class="  text-success text-center ">
-                    <span class="material-icons" style="margin-right: 30px;">favorite_border</span>
-                    <strong>Saved</strong>
-                </div>
-            </a>
-
-            <a href="">
-                <div class="  text-success text-center ">
-                    <span class="material-icons" style="margin-right: 30px;">edit</span>
-                    <strong>Edit profile</strong>
-                </div>
-            </a>
-
-            <a href="">
-                <div class="  text-success text-center m-0 ">
-                    <hr>
-                    <span class="material-icons" style="margin-right: 30px;">logout</span>
-                    <strong>Logout</strong>
-                </div>
-            </a>
-
-
-
-        </div>
-    </div>
-
-
-
-    <div class="col bg-info overflow-hidden  m-2 patition">
-        <div class=" bg-success  text-light p-2">
-            <h4>Account Details</h4>
-        </div>
-
-    </div>
-
-</div> -->
-
 {% endblock content %}

@@ -1,23 +1,33 @@
-import re
 from django.contrib import messages
-from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth import (login,
+                                 authenticate,logout)
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator,PageNotAnInteger
+from django.http import  HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import(render,
+                             get_object_or_404,
+                             redirect
+                             )
 
 from shop.utils import( cart_items_number,
                        get_all_categories,
                        cart_overall_price_total,
                        get_recently_viewed_product,
                        get_cart)
-from shop.forms import RegisterNewCustomer, UserLoginForm
-from shop.models import Product,Category,Customer,Cart, ProductInstance,Category,Order
+from shop.forms import RegisterNewCustomer
+from shop.models import (Product,
+                         Category,
+                         Customer,
+                         Cart,
+                         ProductInstance
+                         ,Category,
+                         Order)
 
 
-
+    
 def index_view(request):
+  
     template = 'shop/index.html'
     categories = get_all_categories(request)
     cart_items = cart_items_number(request)
@@ -36,18 +46,27 @@ def product_list_view(request):
     """retrieves all products"""
 
     template = 'shop/product_list.html'
-    queryset = Product.objects.all()
+    queryset = Product.objects.select_related('category').all()
     
     #paginate the products list
-    paginator = Paginator(list(queryset),4,orphans=2)
-    page_number = 1
-    paginated_products = paginator.page(page_number)
-
+    paginator = Paginator(list(queryset),12)
+    
+    try:
+        page_number = request.GET.get('page')
+        paginated_products = paginator.page(page_number)
+    
+        
+    except PageNotAnInteger:
+        paginated_products = paginator.page(1)
+        
+   
     cart_items = cart_items_number(request)
 
     context  ={
-        'products':queryset,
-        'cart_number':cart_items
+        'page_obj':paginated_products,
+        'total_pages':paginator.num_pages,
+        'cart_number':cart_items,
+       
     }
     return render(request,template,context)
  
@@ -55,7 +74,7 @@ def product_detail_view(request,name):
     """
     handles the details of a single product 
     """
-    recent_products=get_recently_viewed_product(request)
+    # recent_products=get_recently_viewed_product(request)
     queryset = get_object_or_404(Product,name=name)
     request.session['recent'] = name
     product_reviews = queryset.productreview_set.all()
@@ -102,24 +121,26 @@ def category_view(request,category):
     template = 'shop/category_list.html'
     
     context  ={
-        'products':products
+        'page_obj':products
     }
     return render(request,template,context)
 
 #accessed by only authenticated users
 @login_required(login_url='login')
 def user_profile_view(request):
+    customer = Customer.objects.get(profile=request.user)
     cart = get_cart(request)
     cart_products = cart.products.all()
-    cart_items_total = cart_products.count()
+    cart_items_total =cart_items_number(request)
     
     context={
     'cart_products':cart_products,
-    'cart_items_total':cart_items_total
+    'cart_number':cart_items_total,
+    'user':customer
 
     }
     template='shop/profile.html'
-    return render(request,template,context={})
+    return render(request,template,context)
     
    
 def register_new_customer(request):
@@ -137,7 +158,7 @@ def register_new_customer(request):
             auth_user = authenticate(username=username,password=password)
              
             #create customer profile and the cart
-            customer_cart =Cart.objects.create()
+            customer_cart = get_cart(request)
             customer_profile = Customer.objects.create(profile= auth_user,cart=customer_cart)
             customer_profile.save()
             
@@ -146,37 +167,35 @@ def register_new_customer(request):
             #immediately login the customer 
             login(request,auth_user)
                
-    template='shop/auth_page.html'
+    template='shop/register.html'
     context = {
         'form':form,
     }
     return render(request,template,context=context)
 
 def login_view(request):
-    template = 'shop/auth_page.html'
-    login_form = UserLoginForm()
-
+    template = 'shop/login.html'
+    error = ''
+  
     current_user=request.user
-
     if current_user.is_authenticated:
         return redirect('profile')
      
     if request.POST:
-        if login_form.is_valid():
-            login_form = UserLoginForm(request.POST)
-            username= login_form.cleaned_data.POST['username']
-            password =login_form.cleaned_data.POST['password']
-            print(username)
-
+            username= request.POST['username']
+            password =request.POST['password']
+            
             #authenticate and login user/customer
             user = authenticate(request,username=username,password=password)
 
             if user:
                 login(request,user)
                 return redirect('profile') #redirect to profile jst for testing
-            messages.error(request,'User Account does not exist')
-    context = {'form':login_form}
-    
+            else:
+                error = "Invalid data entered,please check your username or password"
+            
+    context = {'error':error}
+
     return render(request,template,context)
 
 def logout_view(request):
@@ -184,13 +203,14 @@ def logout_view(request):
     return redirect('index')
 
 def add_to_cart_view(request,name):
+    template = 'shop/login.html'
     product = get_object_or_404(Product,name=name)
     product_instance = ProductInstance.objects.create(product=product)#create the instance of the product to be added to the cart
     cart = get_cart(request)
     cart.products.add(product_instance)#add new product to the cart
     cart.save()
     messages.success(request,f"{name} added to the cart")
-    return HttpResponseRedirect(reverse('product_details',args=(name,)))
+    return HttpResponseRedirect(reverse('cart'))
     
 
 def remove_from_cart_view(request,product_uuid):
@@ -201,19 +221,37 @@ def remove_from_cart_view(request,product_uuid):
     messages.success(request,f"{product_instance.product.name} has been removed from the cart")
     return HttpResponseRedirect(reverse('cart'))
 
+def increase_product_quantity(request,product_uuid):
+     product= get_object_or_404(ProductInstance,product_uuid=product_uuid)
+     product.product_count+=1
+     product.save()
+     messages.success(request,'Product Added')
+     return HttpResponseRedirect(reverse('cart'))
+ 
+def decrease_product_quantity(request,product_uuid):
+     product= get_object_or_404(ProductInstance,product_uuid=product_uuid)
+     if product.product_count > 1:
+         product.product_count-=1
+         product.save()
+         messages.success(request,'Product removed')
+     return HttpResponseRedirect(reverse('cart'))
+
 def cart_view(request):
     template = 'shop/cart.html'
     cart = get_cart(request)
-    cart_products = cart.products.all()
-    cart_items_total = cart_products.count()
+    cart_products = cart.products.select_related('product').all()
+    cart_items_total = cart_items_number(request)
     total_price=cart_overall_price_total(request)
-    recent=get_recently_viewed_product(request)
     
+    print(total_price)
+    # recent=get_recently_viewed_product(request)
+    
+  
     context={
     'cart_products':cart_products,
     'cart_number':cart_items_total,
     'total':total_price,
-    'recent':recent,
+    # 'recent':recent,
 
     }
     
@@ -229,7 +267,7 @@ def search_products_view(request):
         queryset = Product.objects.filter(name__icontains=search_query)
     
     context ={
-        'products':queryset,
+        'page_obj':queryset,
         'cart_number':cart_items,
         'search':search_query
     }
@@ -248,4 +286,17 @@ def create_order(request):
         messages.success(request,"Your order has been successfully submitted")
         
     return HttpResponseRedirect(reverse('cart'))
+
+def orders_view(request):
+    template ='shop/orders.html'
+    customer = Customer.objects.get(profile=request.user)
+    orders = customer.order_set.select_related('order_cart').all()
+    return render(request,template,{'orders':orders})
+
+
+def delete_order(request,order_id):
+    order = Order.objects.get(order_id=order_id)
+    order.delete()
+    return HttpResponseRedirect(reverse('orders'))
+    
     
