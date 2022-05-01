@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from uuid import uuid4
 
 
-
 class Product(models.Model):
     name = models.CharField(max_length=200,verbose_name='product_name')
     price =models.PositiveIntegerField()
@@ -118,7 +117,6 @@ class Order(models.Model):
     
     def __str__(self) -> str:
         return str(self.order_id)
-    
     
 class FeaturedProduct(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)

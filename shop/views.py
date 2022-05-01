@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator,PageNotAnInteger
 from django.http import  HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User,Group
+from django.db.models import Q
 from django.shortcuts import(render,
                              get_object_or_404,
                              redirect
@@ -15,14 +17,14 @@ from shop.utils import( cart_items_number,
                        cart_overall_price_total,
                        get_recently_viewed_product,
                        get_cart)
-from shop.forms import RegisterNewCustomer
+
 from shop.models import (Product,
                          Category,
                          Customer,
                          Cart,
                          ProductInstance
                          ,Category,
-                         Order)
+                         Order, Promotion)
 
 
     
@@ -31,11 +33,12 @@ def index_view(request):
     template = 'shop/index.html'
     categories = get_all_categories(request)
     cart_items = cart_items_number(request)
-    products = Product.objects.all()[:4]
+    promotions = Promotion.objects.prefetch_related('products').all()
+    
     recent=get_recently_viewed_product(request)
 
     context = {'categories':categories,
-               'products':products,
+               'promotions':promotions,
                'cart_number':cart_items,
                'recent':recent
                }
@@ -49,7 +52,7 @@ def product_list_view(request):
     queryset = Product.objects.select_related('category').all()
     
     #paginate the products list
-    paginator = Paginator(list(queryset),12)
+    paginator = Paginator(list(queryset),8)
     
     try:
         page_number = request.GET.get('page')
@@ -144,39 +147,51 @@ def user_profile_view(request):
     
    
 def register_new_customer(request):
-    form = RegisterNewCustomer()
-    if request.method == 'POST':
-        form = RegisterNewCustomer(request.POST)
-        
-        if form.is_valid():
-            #save and login the customer
-            form.save()
-            
-            #customer data from form for login
+   
+    current_user=request.user
+    if current_user.is_authenticated:
+        return redirect('profile')
+    
+    else:
+        if request.method == 'POST':
             username= request.POST.get('username')
-            password =request.POST.get('password1')
-            auth_user = authenticate(username=username,password=password)
-             
-            #create customer profile and the cart
-            customer_cart = get_cart(request)
-            customer_profile = Customer.objects.create(profile= auth_user,cart=customer_cart)
-            customer_profile.save()
-            
-            messages.success(request,"Account created successfully")
-            
-            #immediately login the customer 
-            login(request,auth_user)
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone')
+            password1 =request.POST.get('password1')
+            password2 =request.POST.get('password2')
+           
+            if password1 == password2:
+                user = User(username =username,last_name=last_name,first_name=first_name,email=email)
+                user.save()
+                #add user to the customer group->created the group in the admin panel
+                group=Group.objects.get(name='customers')
+                group.user_set.add(user)
+                group.save()
+                #create user profile and the cart
+                customer_cart = get_cart(request)
+                customer_profile = Customer.objects.create(profile=user,cart=customer_cart,phone_number = phone)
+                customer_profile.save()
+                messages.success(request,"Account created successfully")
+                #immediately login the customer 
+                login(request,user)
+                
+            else:
+                messages.error(request,'Account not created make sure , you enter valid input ')
+                
+                
                
     template='shop/register.html'
     context = {
-        'form':form,
+        
     }
     return render(request,template,context=context)
 
 def login_view(request):
     template = 'shop/login.html'
     error = ''
-  
+    cart_items_total = cart_items_number(request)
     current_user=request.user
     if current_user.is_authenticated:
         return redirect('profile')
@@ -184,6 +199,7 @@ def login_view(request):
     if request.POST:
             username= request.POST['username']
             password =request.POST['password']
+            cart_number=cart_items_number(request)
             
             #authenticate and login user/customer
             user = authenticate(request,username=username,password=password)
@@ -194,7 +210,8 @@ def login_view(request):
             else:
                 error = "Invalid data entered,please check your username or password"
             
-    context = {'error':error}
+    context = {'error':error,
+               'cart_number':cart_items_total}
 
     return render(request,template,context)
 
@@ -264,7 +281,7 @@ def search_products_view(request):
     template = 'shop/search.html'
     
     if search_query:
-        queryset = Product.objects.filter(name__icontains=search_query)
+        queryset = Product.objects.select_related('category').filter(Q(name__icontains=search_query) | Q(category__name__icontains=search_query))
     
     context ={
         'page_obj':queryset,
@@ -286,14 +303,14 @@ def create_order(request):
         messages.success(request,"Your order has been successfully submitted")
         
     return HttpResponseRedirect(reverse('cart'))
-
+@login_required(login_url='login')
 def orders_view(request):
     template ='shop/orders.html'
     customer = Customer.objects.get(profile=request.user)
     orders = customer.order_set.select_related('order_cart').all()
     return render(request,template,{'orders':orders})
 
-
+@login_required(login_url='login')
 def delete_order(request,order_id):
     order = Order.objects.get(order_id=order_id)
     order.delete()

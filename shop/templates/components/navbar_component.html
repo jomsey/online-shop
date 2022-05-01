@@ -4,14 +4,15 @@
             <h4>Online delight</h4>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <form class="row" action="{%url 'search'%}">
-            <input class="form-control col-6 m  -2 bg-dark  border-success" type="search" placeholder="Search product , category" aria-label="Search" name="q" style="width: 300px" />
-            <button class="btn col-4 btn-outline-success" type="submit">Search</button>
+        </button> -->
+        <form class="search" action="{%url 'search'%}">
+            <input class="form-control  bg-dark  border-success" type="search" placeholder="Search product ,category" aria-label="Search" name="q" style="width: 300px" />
+            <button class="btn  btn-outline-success" type="submit">Search</button>
         </form>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <div class="navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,6 +64,7 @@
 
             </ul>
         </div>
+
     </div>
 
 </nav>

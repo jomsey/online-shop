@@ -56,10 +56,11 @@ def cart_overall_price_total(request):
         return total
                 
 def get_recently_viewed_product(request):
-        recent = request.session['recently_viewed']
-        
+        recent = request.session.get('recently_viewed')
         products = []
-        for product_name in recent:
-                products.append(Product.objects.get(name=product_name))
+        
+        if recent:
+                 for product_name in recent:
+                    products.append(Product.objects.get(name=product_name))
         return set(products)
    

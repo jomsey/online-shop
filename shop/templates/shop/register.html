@@ -2,25 +2,26 @@
 
 <div class="container bg-dark text-muted  ">
 
-    <div class="row m-5">
-        <form class="register-form mt-5 mb-5">
+    <div class="row mt-5 mb-5 ">
+        <form class="register-form mt-5 mb-5" method="POST">
+            {%csrf_token%}
             <div class="col">
                 <div class="form-outline">
-                    <input type="text" id="username" class="form-control bg-dark bg-dark border-success" />
+                    <input required type="text" id="username" name="username" class="form-control bg-dark bg-dark border-success" />
                     <label class="form-label" for="username">Username</label>
                 </div>
             </div>
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-4">
-                <div class="col">
+                <div class="col-sm">
                     <div class="form-outline">
-                        <input type="text" id="first_name" class="form-control bg-dark bg-dark border-success" />
+                        <input required type="text" name="first_name" id="first_name" class="form-control bg-dark bg-dark border-success" />
                         <label class="form-label" for="first_name">First name</label>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-sm">
                     <div class="form-outline">
-                        <input type="text" id="last-name" class="form-control bg-dark bg-dark border-success" />
+                        <input required type="text" id="last-name" name="last_name" class="form-control bg-dark bg-dark border-success" />
                         <label class="form-label" for="last-name">Last name</label>
                     </div>
                 </div>
@@ -28,19 +29,30 @@
 
             <!-- Email input -->
             <div class="form-outline mb-4">
-                <input type="email" id="form3Example3" class="form-control bg-dark bg-dark border-success" />
+                <input required type="email" id="form3Example3" name="email" class="form-control bg-dark bg-dark border-success" />
                 <label class="form-label" for="form3Example3">Email address</label>
+            </div>
+
+            <!-- phone input -->
+            <div class="form-outline mb-4">
+                <input required type="tel" id="phone_number" name="phone" class="form-control bg-dark bg-dark border-success" />
+                <label class="form-label" for="phone">Phone number</label>
             </div>
 
             <!-- Password input -->
             <div class="form-outline mb-4">
-                <input type="password" id="form3Example4" class="form-control bg-dark border-success" />
+                <input required type="password" name="password1" id="form3Example4" class="form-control bg-dark border-success" />
                 <label class="form-label" for="form3Example4">Password</label>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input required type="password" name="password2" id="password2" class="form-control bg-dark border-success" />
+                <label class="form-label" for="password2">Comfirm password</label>
             </div>
 
             <!-- Checkbox -->
             <div class="form-check d-flex justify-content-center mb-4">
-                <input class="form-check-input me-2 bg-dark border-success" type="checkbox" value="" id="form2Example33" checked />
+                <input class="form-check-input  me-2 bg-dark border-success" type="checkbox" value="" id="form2Example33" checked />
                 <label class="form-check-label" for="form2Example33">
                     Subscribe to our newsletter
                 </label>
