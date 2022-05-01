@@ -1,0 +1,355 @@
+body {
+    background-color: rgb(29, 29, 29) !important;
+}
+
+.uniform {
+    color: rgb(29, 29, 29);
+}
+
+navbar {
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar .dropdown-menu a {
+    color: #fff;
+}
+
+.navbar .navbar-nav li a:hover {
+    background-color: transparent;
+    color: #5fec80;
+}
+
+.navbar .dropdown-menu li .btn {
+    width: 90%;
+}
+
+.navbar-brand {
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    font-size: 45px !important;
+    margin-left: 50px;
+}
+
+.search {
+    display: flex;
+    flex-grow: 1;
+}
+
+.search input {
+    width: 70% !important;
+    border-end-end-radius: 0;
+    border-start-end-radius: 0;
+}
+
+.search button {
+    width: 30% !important;
+    border-end-start-radius: 0;
+    border-start-start-radius: 0;
+    border-left: none;
+}
+
+.navbar-nav {
+    position: relative;
+    left: 50%;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar .navbar-collapse .dropdown-menu {
+    width: 300px;
+}
+
+.partition {
+    color: rgb(22, 20, 20);
+    border-radius: 5px;
+    background-color: rgb(202, 202, 202);
+    margin: 0 10px;
+    padding: 0 !important;
+}
+
+.carousel-item {
+    border-radius: 5px;
+    height: 340px;
+}
+
+.banner,
+.partition,
+.carousel-item {
+    background-size: cover !important;
+    background-repeat: no-repeat;
+}
+
+.sub-partition {
+    height: 49%;
+    margin: 5px 0;
+}
+
+#categories {
+    margin-top: 20px;
+}
+
+.partition ul {
+    list-style-type: none;
+}
+
+.partition ul li a {
+    text-decoration: none;
+}
+
+.block:not(.top) {
+    background-color: rgb(202, 202, 202);
+    padding: 0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.block .partition:last-child {
+    margin-left: 0;
+}
+
+.block-title {
+    height: 40px;
+    position: relative;
+    bottom: 32px;
+    color: #fff;
+}
+
+.carousel-indicators button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50%;
+}
+
+.banner {
+    height: 60px;
+    background-position-y: center;
+}
+
+.badge.discount {
+    position: absolute;
+    left: 80%;
+}
+
+.part {
+    width: 220px;
+    height: 160px;
+}
+
+.product {
+    margin: 0 !important;
+    width: 14rem;
+    height: 20rem;
+    overflow: hidden;
+}
+
+.product-box {
+    background: transparent;
+}
+
+.product img {
+    width: 60%;
+    height: 150px;
+    margin-top: 5px;
+}
+
+.msg-container,
+.message {
+    background-color: #fff;
+}
+
+.message {
+    filter: grayscale(100%) brightness(50%);
+}
+
+.message img {
+    width: 300px;
+}
+
+.start-shopping {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+input {
+    color: rgb(187, 187, 187) !important;
+}
+
+.pagination,
+.register-form,
+.login-form,
+.message img,
+.checkout-btn,
+.cart-items,
+.product,
+.product_list,
+.product img,
+.out button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdown-item:not(.out),
+.nav-link {
+    display: flex;
+    justify-content: baseline;
+    padding: 10px;
+}
+
+.dropdown-item:not(.out) span {
+    margin-right: 20px;
+}
+
+.cart-number {
+    position: relative;
+    top: -5px;
+}
+
+.add-cart-btn {
+    width: 100% !important;
+}
+
+.add-cart-btn span {
+    position: relative;
+    right: 100px;
+}
+
+.cart_product_image {
+    width: 100px;
+}
+
+.content div,
+.remove-cart-btn {
+    display: flex;
+    justify-content: baseline;
+    width: 200px;
+    padding: 10px;
+    position: relative;
+    top: 15px;
+}
+
+.checkout-btn {
+    width: 80%;
+}
+
+.remove-cart-btn:hover {
+    background-color: #5fec80;
+    color: #fff !important;
+    border: none !important;
+}
+
+.register-form,
+.login-form {
+    width: 400px;
+}
+
+.paginator {
+    width: max-content;
+    display: flex;
+}
+
+.paginator a {
+    width: max-content;
+    text-align: center;
+}
+
+.prods {
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+.register-form {
+    margin: 20px 0;
+}
+
+.prods::-webkit-scrollbar {
+    display: none !important;
+}
+
+@media screen and (max-width: 844px) {
+    .product {
+        width: 8rem;
+        height: 12rem;
+        padding: 2px;
+    }
+    .product img {
+        width: 60%;
+        height: 100px;
+    }
+    .badge.discount {
+        left: 70%;
+    }
+    .card-title {
+        font-size: 14px !important;
+        margin: 0;
+    }
+    .card-body {
+        padding: 0 2px !important;
+    }
+    .progress {
+        display: none;
+    }
+    #categories {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #categories li {
+        margin: 10px;
+    }
+    .categories {
+        margin: 20px;
+        width: 90%;
+        padding: 0 !important;
+    }
+    .slide {
+        width: 95% !important;
+    }
+    .slide .carousel-inner .carousel-item {
+        height: 150px !important;
+    }
+    .parts {
+        display: flex;
+    }
+    .part {
+        width: 260px;
+        height: 120px;
+        margin: 10px;
+    }
+    .card-text {
+        margin: 0;
+        font: 12px;
+    }
+    .login-form,
+    .register-form {
+        width: 310px !important;
+    }
+    .navbar-collapse {
+        width: 100% !important;
+        position: relative;
+        right: 40%;
+        top: 5px;
+    }
+    .cart {
+        width: 50px;
+        position: absolute;
+        left: 90%;
+    }
+    .navbar-nav {
+        width: 85%;
+    }
+    .navbar-brand {
+        margin-left: 0;
+    }
+    .gif {
+        height: 250px;
+        width: auto;
+    }
+}
